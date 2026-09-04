@@ -1,4 +1,4 @@
-#SMART: Poisoning-Resilient Memory for Multi-Agent LLMs
+# SMART: Poisoning-Resilient Memory for Multi-Agent LLMs
 
 ## Description
 
