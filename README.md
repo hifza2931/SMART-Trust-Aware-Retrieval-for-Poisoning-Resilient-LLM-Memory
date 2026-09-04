@@ -6,11 +6,11 @@ SMART is a trust-aware multimodal Retrieval-Augmented Generation (RAG) pipeline 
 
 The pipeline consists of five phases:
 
-1. **Candidate Retrieval** — retrieves candidate memory chunks relevant to a query.
-2. **Evidence Extraction** — computes five trust-relevant signals per candidate: `S` (semantic relevance), `P` (provenance), `C` (cross-modal consistency), `U` (confidence), and `R` (safety/risk).
-3. **Adaptive Trust Fusion** — combines the five evidence dimensions into a single trust probability using a fitted fusion model.
-4. **Trust-Aware Ranking** — reranks candidates using the fused trust score alongside relevance.
-5. **Explainable Output** — returns the selected memory along with a trust level and human-readable explanation.
+1. **Candidate Retrieval** retrieves candidate memory chunks relevant to a query.
+2. **Evidence Extraction** computes five trust-relevant signals per candidate: `S` (semantic relevance), `P` (provenance), `C` (cross-modal consistency), `U` (confidence), and `R` (safety/risk).
+3. **Adaptive Trust Fusion** combines the five evidence dimensions into a single trust probability using a fitted fusion model.
+4. **Trust-Aware Ranking** reranks candidates using the fused trust score alongside relevance.
+5. **Explainable Output** returns the selected memory along with a trust level and human-readable explanation.
 
 This notebook (`smart-final-code.ipynb`) is a clean, de-duplicated rebuild of the pipeline. Compared to earlier versions, it adds a proper stratified Train/Validation/Test split, and ensures all fitted components (e.g., Mahalanobis covariance estimation, logistic-regression trust correction) are fit only on the training set and applied frozen to validation/test data, eliminating data leakage.
 
@@ -18,8 +18,8 @@ This notebook (`smart-final-code.ipynb`) is a clean, de-duplicated rebuild of th
 
 Two corpora are used to construct the trusted/untrusted memory pool:
 
-- **Wikipedia** — used as the trusted source corpus.
-- **Fakeddit** (`vanshikavmittal/fakeddit-dataset` on Kaggle) — used as the untrusted/noisy source corpus, providing synthetic poisoning examples.
+- **Wikipedia** used as the trusted source corpus.
+- **Fakeddit** (`vanshikavmittal/fakeddit-dataset` on Kaggle) used as the untrusted/noisy source corpus, providing synthetic poisoning examples.
 
 The two corpora are combined and deduplicated to construct the candidate memory pool used for retrieval and trust evaluation. Queries are evaluated against this pool, with ground-truth articles/memory IDs used to compute retrieval and ranking metrics (e.g., Recall@1).
 
@@ -39,9 +39,9 @@ The two corpora are combined and deduplicated to construct the candidate memory 
 
 1. Open the notebook in Google Colab, Kaggle, or a local Jupyter environment.
 2. Set the `DATA_SOURCE` variable in the configuration cell:
-   - `"kagglehub"` — automatically downloads both datasets (default, works in Colab/local/Kaggle).
-   - `"kaggle_local"` — use if the datasets are already attached to a Kaggle notebook.
-   - `"custom"` — point to your own local copies of the datasets.
+   - `"kagglehub"` automatically downloads both datasets (default, works in Colab/local/Kaggle).
+   - `"kaggle_local"` use if the datasets are already attached to a Kaggle notebook.
+   - `"custom"` point to your own local copies of the datasets.
 3. Run all cells from top to bottom in order. Each phase is self-contained in one clean cell block; no cell needs to be re-run out of sequence.
 4. After the pipeline runs, evaluation cells at the end of the notebook report retrieval and ranking metrics (e.g., Recall@1) on the held-out test split.
 
